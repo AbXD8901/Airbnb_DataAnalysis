@@ -17,6 +17,7 @@ The Tableau dashboard provides a comprehensive view of the Airbnb dataset, combi
 # Requirements
 Python 3.6+
 Streamlit
+MongoDB
 Pandas
 Plotly
 Tableau Deskto
