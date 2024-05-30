@@ -5,7 +5,7 @@ import plotly.express as px
 # Load the Airbnb dataset
 @st.cache_data
 def load_data():
-    return pd.read_json(r'C:\Users\Ab Deshmukh\Desktop\Python\VSCode\airbnb.json')
+    return pd.read_json(ur file path')
 
 # Preprocess the data
 def preprocess_data(df):
@@ -51,6 +51,11 @@ def aggregate_location_data(df):
         'beds': 'mean',
         'bathrooms': 'mean'
     }).reset_index()
+
+    # Convert beds and bathrooms to whole numbers
+    aggregated_data['beds'] = aggregated_data['beds'].round().astype(int)
+    aggregated_data['bathrooms'] = aggregated_data['bathrooms'].round().astype(int)
+
     return aggregated_data
 
 # Create the map with a bright color scheme
@@ -91,7 +96,7 @@ def create_bubble_map(df):
         size="price", 
         color="price",
         hover_name="suburb",
-        hover_data={"price": True, "latitude": False, "longitude": False, "beds": True, "bathrooms": True, "rating": True},
+        hover_data={"price": True, "beds": True, "bathrooms": True, "rating": True},
         zoom=10, 
         height=600,
         color_continuous_scale=px.colors.sequential.Viridis
@@ -117,8 +122,11 @@ def main():
 
     if analysis_type == "Geospatial Visualization":
         # Country filter
-        country_filter = st.selectbox("Select Country", options=df['country_code'].unique())
-        df_country_filtered = df[df['country_code'] == country_filter]
+        country_filter = st.selectbox("Select Country", options=list(df['country_code'].unique()) + ["All"])
+        if country_filter == "All":
+            df_country_filtered = df
+        else:
+            df_country_filtered = df[df['country_code'] == country_filter]
 
         # Suburb filter
         suburb_filter = st.multiselect("Select Suburb(s)", options=df_country_filtered['suburb'].unique(), default=df_country_filtered['suburb'].unique())
@@ -139,8 +147,11 @@ def main():
         aggregated_data = aggregate_location_data(df)
         
         # Country filter
-        country_filter = st.selectbox("Select Country", options=aggregated_data['country_code'].unique())
-        aggregated_data_country_filtered = aggregated_data[aggregated_data['country_code'] == country_filter]
+        country_filter = st.selectbox("Select Country", options=list(aggregated_data['country_code'].unique()) + ["All"])
+        if country_filter == "All":
+            aggregated_data_country_filtered = aggregated_data
+        else:
+            aggregated_data_country_filtered = aggregated_data[aggregated_data['country_code'] == country_filter]
 
         # Suburb filter
         suburb_filter = st.multiselect("Select Suburb(s)", options=aggregated_data_country_filtered['suburb'].unique(), default=aggregated_data_country_filtered['suburb'].unique())
