@@ -9,6 +9,10 @@ Creates interactive visualizations using Plotly and Streamlit.
 Allows users to filter and explore the data based on various criteria.
 Tableau Dashboard
 The Tableau dashboard provides a comprehensive view of the Airbnb dataset, combining different visualizations to present insights into prices, ratings, and other key metrics.
+3 sections :
+1. Geo_Visualization of each listing
+2. boxPlot for PRice vs PRoperty_Type
+3. Map for Location Based insights
 
 # Requirements
 Python 3.6+
